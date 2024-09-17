@@ -16,7 +16,12 @@ module.exports = {
         civil_status,
         username,
         password,
-        user_type
+        user_type,
+        name,
+        contact_number,
+        contact_email,
+        relationship,
+        contact_address
       } = req.body;
 
       const employee = await Employee.create({
@@ -38,7 +43,16 @@ module.exports = {
         password,
         user_type
       }).fetch();
-      return res.status(201).json({message: 'User created successfully', user: user, employee: employee});
+
+      const icoe = await Emergency.create({
+        employee_id: employee.id,
+        name,
+        contact_number,
+        contact_email,
+        relationship,
+        contact_address
+      }).fetch();
+      return res.status(201).json({message: 'User created successfully', user: user, employee: employee, in_case_of_emergency: icoe});
     } catch (err) {
       return res.status(500).json({ message: `Error creating user ${err}` });
     }
