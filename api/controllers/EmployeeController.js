@@ -52,8 +52,11 @@ module.exports = {
         relationship,
         contact_address
       }).fetch();
+
+      sails.log.info('User created successfully');
       return res.status(201).json({message: 'User created successfully', user: user, employee: employee, in_case_of_emergency: icoe});
     } catch (err) {
+      sails.log.error(err);
       return res.status(500).json({ message: `Error creating user ${err}` });
     }
   }
