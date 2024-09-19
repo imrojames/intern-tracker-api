@@ -61,55 +61,32 @@ module.exports = {
     }
   },
 
-  updateEmployee: async function (req, res) {
+  updateEmployee: async function (req,res) {
+    const employee_id = req.params.id;
+    const {employeeData, emergencyData} = req.body;
+
     try {
-      let params = req.allParams();
-
-      let attributes = {};
-      let attributes2 = {}
-      if (params.last_name) {
-        attributes.last_name = params.last_name;
-      }
-      if (params.first_name) {
-        attributes.first_name = params.first_name;
-      }
-      if (params.middle_name) {
-        attributes.middle_name = params.middle_name;
-      }
-      if (params.mobile) {
-        attributes.mobile = params.mobile;
-      }
-      if (params.email) {
-        attributes.email = params.email;
-      }
-      if (params.address) {
-        attributes.address = params.address;
-      }
-      if (params.birthdate) {
-        attributes.birthdate = params.birthdate;
-      }
-      if (params.gender) {
-        attributes.gender = params.gender;
-      }
-      if (params.civil_status) {
-        attributes.civil_status = params.civil_status;
+      const updatedEmployee = await Employee.updateOne({id: employee_id}).set(employeeData);
+      if (!updatedEmployee) {
+        sails.log.error(`Employee not found`);
+        return res.status(404).json({message: `Employee not found`});
       }
 
-      // update employee by id
-      const updatedEmployee = await Employee.update({
-        id: params.id
-      }, attributes);
+      const updatedICOE = await Emergency.updateOne({employee_id: employee_id}).set(emergencyData);
+      if (!updatedICOE) {
+        sails.log.error(`Emergency contact not found`);
+        return res.status(404).json({message: `Emergency contact not found`});
+      }
 
-      // get the updated employee by id
-      const getUpdatedEmp = await Employee.findOne({
-        id: params.id,
+      sails.log.info(`Employee updated successfully`)
+      return res.status(200).json({
+        message: 'Employee updated successfully',
+        employee: updatedEmployee,
+        in_case_of_emergency: updatedICOE
       });
-
-      sails.log.info(`Successfully updated employee ${params.id}`)
-      return res.status(201).json({message: 'Update employee', employee: getUpdatedEmp});
     } catch (err) {
-      sails.log.error(`Error: ${err}`);
-      return res.status(500).json({message: `Error: ${err}`});
+      sails.log.error(`An error occurred while updating employee. ${err}`);
+      return res.status(500).json({error: `${err}`});
     }
   },
 
