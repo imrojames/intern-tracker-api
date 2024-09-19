@@ -47,6 +47,11 @@ module.exports.routes = {
     action: 'updateEmployee',
     policy: 'isAuthenticated'
   },
+  'PUT /employee/remove/:id' : {
+    controller: 'EmployeeController',
+    action: 'deleteEmployee',
+    policy: 'isAuthenticated'
+  }
 
   /***************************************************************************
   *                                                                          *
