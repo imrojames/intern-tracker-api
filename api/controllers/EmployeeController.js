@@ -59,5 +59,60 @@ module.exports = {
       sails.log.error(err);
       return res.status(500).json({ message: `Error creating user ${err}` });
     }
+  },
+
+  updateEmployee: async function (req, res) {
+    try {
+      let params = req.allParams();
+
+      let attributes = {};
+      let attributes2 = {}
+      if (params.last_name) {
+        attributes.last_name = params.last_name;
+      }
+      if (params.first_name) {
+        attributes.first_name = params.first_name;
+      }
+      if (params.middle_name) {
+        attributes.middle_name = params.middle_name;
+      }
+      if (params.mobile) {
+        attributes.mobile = params.mobile;
+      }
+      if (params.email) {
+        attributes.email = params.email;
+      }
+      if (params.address) {
+        attributes.address = params.address;
+      }
+      if (params.birthdate) {
+        attributes.birthdate = params.birthdate;
+      }
+      if (params.gender) {
+        attributes.gender = params.gender;
+      }
+      if (params.civil_status) {
+        attributes.civil_status = params.civil_status;
+      }
+
+      // update employee by id
+      const updatedEmployee = await Employee.update({
+        id: params.id
+      }, attributes);
+
+      // get the updated employee by id
+      const getUpdatedEmp = await Employee.findOne({
+        id: params.id,
+      });
+
+      sails.log.info(`Successfully updated employee ${params.id}`)
+      return res.status(201).json({message: 'Update employee', employee: getUpdatedEmp});
+    } catch (err) {
+      sails.log.error(`Error: ${err}`);
+      return res.status(500).json({message: `Error: ${err}`});
+    }
   }
 };
+
+
+// Ready to merge!!!
