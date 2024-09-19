@@ -33,7 +33,12 @@ module.exports.routes = {
     controller: 'AuthController',
     action: 'protected',
     policy: 'isAuthenticated'
-  }
+  },
+  'PATCH /auth/employee/:id' : {
+    controller: 'EmployeeController',
+    action: 'updateEmployee',
+    policy: 'isAuthenticated'
+  },
 
   /***************************************************************************
   *                                                                          *
