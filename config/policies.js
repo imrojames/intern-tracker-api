@@ -20,7 +20,7 @@ module.exports.policies = {
   // '*': true,
   'EmployeeController' : {
     'updateEmployee': 'isAuthenticated',
-    'updateEmployee': 'isAuthenticated',
+    'findEmployee': 'isAuthenticated',
     'findOneEmployee': 'isAuthenticated',
     'deleteEmployee': 'isAuthenticated'
   },
