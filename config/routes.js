@@ -51,7 +51,9 @@ module.exports.routes = {
     controller: 'EmployeeController',
     action: 'deleteEmployee',
     policy: 'isAuthenticated'
-  }
+  },
+
+
 
   /***************************************************************************
   *                                                                          *
