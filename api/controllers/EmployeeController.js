@@ -79,6 +79,12 @@ module.exports = {
         return res.status(404).json({message: `Employee not found`});
       }
 
+      const deleteUser = await Users.updateOne({employee_id: req.params.id}).set({active: false});
+      if (!deleteUser) {
+        sails.log.error(`User not found`);
+        return res.status(404).json({message: `User not found`});
+      }
+
       sails.log.info(`Employee successfully deactivated`);
       return res.status(200).json({message: `Employee successfully deactivated`, employee: deletedEmp});
     } catch (err) {
