@@ -122,8 +122,17 @@ module.exports = {
       sails.log.error(`Error: ${err}`);
       return res.status(500).json({message: `Error: ${err}`});
     }
+  },
+
+  findOneEmployee: async function (req, res) {
+    try {
+      const employee = await Employee.findOne({id: req.params.id});
+      sails.log.info(`Successfully pull up employee ${ req.params.id}`);
+      return res.status(200).json({message: `Successfully pull up employee ${req.params.id}`, employee: employee});
+    } catch (err) {
+      sails.log.error(`Error: ${err}`);
+      return res.status(500).json({message: `Error: ${err}`});
+    }
   }
 };
 
-
-// Ready to merge!!!

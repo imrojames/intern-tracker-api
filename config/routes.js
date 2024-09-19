@@ -21,17 +21,25 @@ module.exports.routes = {
 
   // '/': { view: 'pages/homepage' },
 
-  'POST /register' : {
-    controller: 'EmployeeController',
-    action: 'registerUser'
-  },
+  // Authentication
   'POST /login' : {
     controller: 'AuthController',
     action: 'logins'
   },
-  'GET /auth/protected' : {
-    controller: 'AuthController',
-    action: 'protected',
+
+  // Employee routes
+  'POST /register' : {
+    controller: 'EmployeeController',
+    action: 'registerUser'
+  },
+  'GET /employees' : {
+    controller: 'EmployeeController',
+    action: 'findEmployee',
+    policy: 'isAuthenticated'
+  },
+  'GET /employee/:id': {
+    controller: 'EmployeeController',
+    action: 'findOneEmployee',
     policy: 'isAuthenticated'
   },
   'PATCH /employee/:id' : {
@@ -39,11 +47,6 @@ module.exports.routes = {
     action: 'updateEmployee',
     policy: 'isAuthenticated'
   },
-  'GET /employees' : {
-    controller: 'EmployeeController',
-    action: 'findEmployee',
-    policy: 'isAuthenticated'
-  }
 
   /***************************************************************************
   *                                                                          *
