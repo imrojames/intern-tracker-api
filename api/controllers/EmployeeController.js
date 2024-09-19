@@ -133,6 +133,22 @@ module.exports = {
       sails.log.error(`Error: ${err}`);
       return res.status(500).json({message: `Error: ${err}`});
     }
+  },
+
+  deleteEmployee: async function (req, res) {
+    try {
+      const deletedEmp = await Employee.updateOne({id: req.params.id}).set({active: false})
+      if (!deletedEmp) {
+        sails.log.error(`Employee not found`);
+        return res.status(404).json({message: `Employee not found`});
+      }
+
+      sails.log.info(`Employee successfully deactivated`);
+      return res.status(200).json({message: `Employee successfully deactivated`, employee: deletedEmp});
+    } catch (err) {
+      sails.log.error(`Error: ${err}`);
+      return res.status(500).json({message: `Error: ${err}`});
+    }
   }
 };
 
