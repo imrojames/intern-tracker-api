@@ -18,14 +18,11 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-  'AuthController': {
-    'protected': 'isAuthenticated',
-  },
   'EmployeeController' : {
     'updateEmployee': 'isAuthenticated',
-  },
-  'EmployeeController' : {
     'findEmployee': 'isAuthenticated',
-  }
+    'findOneEmployee': 'isAuthenticated'
+  },
+
 
 };
