@@ -21,11 +21,11 @@ module.exports.routes = {
 
   // '/': { view: 'pages/homepage' },
 
-  'POST /auth/register' : {
+  'POST /register' : {
     controller: 'EmployeeController',
     action: 'registerUser'
   },
-  'POST /auth/login' : {
+  'POST /login' : {
     controller: 'AuthController',
     action: 'logins'
   },
@@ -34,11 +34,16 @@ module.exports.routes = {
     action: 'protected',
     policy: 'isAuthenticated'
   },
-  'PATCH /auth/employee/:id' : {
+  'PATCH /employee/:id' : {
     controller: 'EmployeeController',
     action: 'updateEmployee',
     policy: 'isAuthenticated'
   },
+  'GET /employees' : {
+    controller: 'EmployeeController',
+    action: 'findEmployee',
+    policy: 'isAuthenticated'
+  }
 
   /***************************************************************************
   *                                                                          *

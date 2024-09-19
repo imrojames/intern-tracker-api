@@ -111,6 +111,17 @@ module.exports = {
       sails.log.error(`Error: ${err}`);
       return res.status(500).json({message: `Error: ${err}`});
     }
+  },
+
+  findEmployee: async function (req, res) {
+    try {
+      const employees = await Employee.find();
+      sails.log.info('Successfully pullup all employee');
+      return res.status(200).json({message: 'List of employees', employee: employees});
+    } catch (err) {
+      sails.log.error(`Error: ${err}`);
+      return res.status(500).json({message: `Error: ${err}`});
+    }
   }
 };
 
