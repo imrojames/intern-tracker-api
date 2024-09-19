@@ -4,60 +4,19 @@ const jwt = require('jsonwebtoken');
 module.exports = {
   registerUser: async function (req, res) {
     try {
-      const {
-        last_name,
-        first_name,
-        middle_name,
-        mobile,
-        email,
-        address,
-        birthdate,
-        gender,
-        civil_status,
-        username,
-        password,
-        user_type,
-        name,
-        contact_number,
-        contact_email,
-        relationship,
-        contact_address
-      } = req.body;
+      const {employeeData, employeeAccountData, incaseOfEmergencyData} = req.body;
+      const newEmployee = await Employee.create({ ...employeeData}).fetch();
+      const newEmpAccount = await Users.create({ ...employeeAccountData, employee_id: newEmployee.id}).fetch();
+      const newEmpICOE = await Emergency.create({ ...incaseOfEmergencyData, employee_id: newEmployee.id}).fetch();
 
-      const employee = await Employee.create({
-        last_name,
-        first_name,
-        middle_name,
-        mobile,
-        email,
-        address,
-        birthdate,
-        gender,
-        civil_status
-      }).fetch();
-
-      const user = await Users.create({
-        employee_id: employee.id,
-        username,
-        email,
-        password,
-        user_type
-      }).fetch();
-
-      const icoe = await Emergency.create({
-        employee_id: employee.id,
-        name,
-        contact_number,
-        contact_email,
-        relationship,
-        contact_address
-      }).fetch();
-
-      sails.log.info('User created successfully');
-      return res.status(201).json({message: 'User created successfully', user: user, employee: employee, in_case_of_emergency: icoe});
+      return res.status(201).json({
+        message: `Employee successfullt created`,
+        employee: newEmployee,
+        employee_account: newEmpAccount,
+        incaseOfEmergency: newEmpICOE
+      });
     } catch (err) {
-      sails.log.error(err);
-      return res.status(500).json({ message: `Error creating user ${err}` });
+      return res.status(500).json({errorss: `${err}`});
     }
   },
 
