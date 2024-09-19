@@ -23,6 +23,9 @@ module.exports.policies = {
   },
   'EmployeeController' : {
     'updateEmployee': 'isAuthenticated',
+  },
+  'EmployeeController' : {
+    'findEmployee': 'isAuthenticated',
   }
 
 };
